@@ -11,6 +11,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +60,69 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d("DATA", sb.toString());
             fr.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void click3(View v)
+    {
+        InputStream is = getResources().openRawResource(R.raw.aa);
+        InputStreamReader reader = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            reader = new InputStreamReader(is, "UTF-8");
+            char[] buffer = new char[1];
+            while(reader.read(buffer) != -1)
+            {
+                sb.append(new String(buffer));
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("DATA", sb.toString());
+    }
+
+    public void click4(View v)
+    {
+        File f1 = getExternalFilesDir(null);
+        File writeFile = new File(f1, "mydata2.txt");
+        try {
+
+            FileWriter fw = new FileWriter(writeFile.getAbsoluteFile());
+            fw.write("Hello This is data2");
+            fw.flush();
+            fw.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void click5(View v)
+    {
+        File f1 = Environment.getExternalStorageDirectory();
+        File f2 = new File(f1, "mypath");
+        if (f2.mkdir())
+        {
+            Log.d("FILE", "建立成功");
+        }
+        else
+        {
+            Log.d("FILE", "建立失敗");
+        }
+        File writeFile = new File(f2, "mydata2.txt");
+        try {
+
+            FileWriter fw = new FileWriter(writeFile.getAbsoluteFile());
+            fw.write("Hello This is data2");
+            fw.flush();
+            fw.close();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
